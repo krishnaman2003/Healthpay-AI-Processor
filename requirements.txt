@@ -1,0 +1,31 @@
+# FastAPI and server
+fastapi
+uvicorn[standard]
+python-multipart
+
+# LangGraph for agent orchestration
+langgraph
+langchain
+langchain-core
+
+# Google Gemini API
+google-generativeai
+
+# PDF processing
+PyPDF2
+Pillow
+pytesseract
+pypdfium2
+
+# Data validation
+pydantic
+pydantic-settings
+
+# Utilities
+python-dotenv
+aiofiles
+
+# Testing (optional)
+pytest
+pytest-asyncio
+httpx
