@@ -24,7 +24,7 @@ The system uses **LangGraph** to orchestrate a pipeline of specialized AI agents
 🏷️  Classifier Agent (classifies document types using Gemini)
     ↓
 ┌─────────────────────────────────────────┐
-│  Specialized Processing Agents (Parallel) │
+│ Specialized Processing Agents (Parallel)│
 ├─────────────────────────────────────────┤
 │ 💰 Bill Agent                           │
 │ 🏥 Discharge Summary Agent              │
@@ -55,7 +55,6 @@ The system uses **LangGraph** to orchestrate a pipeline of specialized AI agents
 1. **Clone the repository**
 ```bash
 git clone <repository-url>
-cd claim-processor
 ```
 
 2. **Create virtual environment**
@@ -70,8 +69,7 @@ pip install -r requirements.txt
 ```
 
 4. **Configure environment variables**
-```bash
-cp .env.example .env
+```
 # Edit .env and add your GEMINI_API_KEY
 ```
 
@@ -230,9 +228,6 @@ Provide both the logic and the Gemini prompt for this validation.
 2. **Prompt Engineering**: Iteratively refined LLM prompts for better extraction accuracy
 3. **Error Handling**: AI suggested edge cases and error scenarios I hadn't considered
 4. **Documentation**: Auto-generated docstrings and README sections
-5. **Testing**: Created test cases and validation logic suggestions
-
-**Estimated Time Saved:** 60-70% compared to manual development
 
 ## 🧪 Testing
 
@@ -279,74 +274,3 @@ claim-processor/
 ├── .env.example               # Environment template
 └── README.md                  # This file
 ```
-
-## 🎓 Key Learnings & Design Tradeoffs
-
-### Successes
-1. **Modular Agent Design**: Each agent is independent and testable
-2. **LangGraph State Management**: Clean way to pass data between agents
-3. **Async Processing**: Handles multiple file uploads efficiently
-4. **Type Safety**: Pydantic models catch errors early
-
-### Tradeoffs & Considerations
-
-1. **Sequential vs Parallel Processing**
-   - **Current**: Sequential processing (extract → classify → process → validate)
-   - **Tradeoff**: Simpler logic but slower for large batches
-   - **Future**: Could parallelize document-specific agents (bill/discharge/ID card)
-
-2. **LLM Costs**
-   - **Current**: Multiple Gemini calls per request (classification + extraction per doc + validation)
-   - **Tradeoff**: Higher accuracy vs higher API costs
-   - **Alternative**: Could batch multiple operations into single prompts
-
-3. **Error Handling**
-   - **Current**: Graceful degradation - processes remaining docs if one fails
-   - **Tradeoff**: Partial results vs all-or-nothing approach
-   - **Decision**: Better UX to return partial data with error details
-
-4. **PDF Text Extraction**
-   - **Current**: PyPDF2 for text extraction
-   - **Limitation**: Doesn't handle image-based PDFs or complex layouts
-   - **Future**: Could add OCR (Tesseract) for scanned documents
-
-### Known Limitations
-
-- Only supports text-based PDFs (no OCR for scanned documents)
-- No caching of LLM responses (could reduce API calls for similar documents)
-- Validation rules are relatively simple (could add more sophisticated medical logic)
-- No persistence layer (all processing is stateless)
-
-## 🚀 Future Enhancements
-
-1. **Database Integration**: Store processed claims for analytics
-2. **Redis Caching**: Cache LLM responses for similar documents
-3. **Vector Database**: Store document embeddings for similarity search
-4. **Advanced OCR**: Handle scanned/image PDFs using Tesseract or Google Vision
-5. **Real-time Updates**: WebSocket support for progress updates
-6. **Admin Dashboard**: UI for reviewing rejected claims
-7. **Audit Trail**: Complete logging of all decisions with reasoning
-
-## 📊 Performance Metrics
-
-- **Average processing time**: 8-15 seconds per claim (3-4 documents)
-- **Gemini API calls**: 4-6 per request (1 classification + 3-4 extractions + 1 validation)
-- **Success rate**: 90%+ on well-formatted documents
-
-## 🤝 Contributing
-
-This project follows clean code principles:
-- Type hints on all functions
-- Comprehensive docstrings
-- Proper error handling
-- Logging at appropriate levels
-
-## 📝 License
-
-This project was created as part of the Superclaims Backend Developer Assignment.
-
----
-
-**Built with ❤️ using Claude, Cursor, and Gemini**
-
-For questions or clarifications, please contact the development team.
